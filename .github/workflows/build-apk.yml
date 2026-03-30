@@ -14,35 +14,37 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
 
       - name: Install dependencies
-        working-directory: ./medicine-cabinet
-        run: npm install
+        run: |
+          cd medicine-cabinet
+          npm install
 
       - name: Build web app
-        working-directory: ./medicine-cabinet
-        run: npm run build
+        run: |
+          cd medicine-cabinet
+          npm run build
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
+      - name: Android SDK
         uses: android-actions/setup-android@v2
 
       - name: Build APK
-        working-directory: ./medicine-cabinet/android
         run: |
+          cd medicine-cabinet/android
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleDebug
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: medicine-cabinet-apk
-          path: ./medicine-cabinet/android/app/build/outputs/apk/debug/app-debug.apk
+          path: medicine-cabinet/android/app/build/outputs/apk/debug/app-debug.apk
