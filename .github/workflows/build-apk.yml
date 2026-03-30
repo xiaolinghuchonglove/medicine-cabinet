@@ -18,15 +18,18 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install npm deps
+      - name: Install yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
         run: |
           cd medicine-cabinet
-          npm install
+          yarn install --network-timeout 300000
 
       - name: Build web
         run: |
           cd medicine-cabinet
-          npm run build
+          yarn build
 
       - name: Setup Java
         uses: actions/setup-java@v4
